@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Parisienne&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="./styles/style.css">
+  <title>For My Love</title>
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav_content">
+      <div class="nav_text">
+        <span>For my Love &#x2764;</span>
+      </div>
+      <div class="nav_link">
+        <ul>
+          <li><a href="./Pages/Gallery/index.html">Gallery</a></li>
+          <li><a href="./Pages/MusicAlbum/ma.html">Music</a></li>
+          <li><a href="./Pages/AboutYou/about.html">About You</a></li>
+         
+        </ul>
+      </div>
+    </div>
+  </header>
+  <div class="hero_img">
+    <!-- Fixed image path to use correct relative path -->
+    <img src="./finfher/Images/Main/hero_img.jpg" alt="Hero Image">
+  </div>
+  <div class="hero_text">
+    <h1>My Beautiful Chaos</h1>
+    <p>My Love, you are the most wonderfully complicated person I know, and I wouldn't have it any other way. You fight with me over the silliest things, and I wouldn't trade those moments for anything, because they're always followed by the warmth of your love. You are my greatest protector—from making sure I take my medicine to reminding me to eat, from picking out my clothes to listening to my endless yapping. You're the one who always has my back, who blesses me before every big step, and who does everything you can for me. You don't just love me; you care for me in a way no one else ever has. You are my home, my peace, and my beautiful chaos.</p>
+  </div>
+  <footer class="social_links">
+    <div class="icon">
+      <a href="https://www.instagram.com/sanjeev__singh_._?igsh=MTZiY3gyd3FscW83aw==" target="_blank"> <i class="fa-brands fa-instagram"></i></a>
+      <a href="https://wa.me/7545091005" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    </div>
+    <p>Made with love, for my love &copy; 2025</p>
+  </footer>
+  <!-- Made JavaScript optional to prevent loading errors -->
+  <script>
+    // Simple fallback navigation without external dependencies
+    document.addEventListener('DOMContentLoaded', function() {
+      // Add smooth page transitions
+      document.body.style.opacity = '0';
+      document.body.style.transition = 'opacity 0.3s ease-in-out';
+      
+      setTimeout(function() {
+        document.body.style.opacity = '1';
+      }, 100);
+      
+      // Add hover effects to navigation
+      const navLinks = document.querySelectorAll('.nav_link a');
+      navLinks.forEach(function(link) {
+        link.addEventListener('mouseenter', function() {
+          this.style.transform = 'scale(1.05)';
+        });
+        link.addEventListener('mouseleave', function() {
+          this.style.transform = 'scale(1)';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
