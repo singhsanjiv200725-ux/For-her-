@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <title>Photo Gallery - For My Love</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #fff0f5;
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+
+    /* Fixed navigation styling to match main page */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+      width: 100%;
+      background: #ffeef2;
+      padding: 0 40px;
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav_content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 50px;
+    }
+
+    .nav_text {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #d46a84;
+      font-family: "Dancing Script", cursive;
+    }
+
+    .nav_link ul {
+      list-style: none;
+      display: flex;
+      
+      gap: 20px;
+      align-items: center;
+    }
+   
+
+    .nav_link ul li a {
+      text-decoration: none;
+      color: #333;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      padding: 8px 16px;
+      border-radius: 20px;
+    }
+
+    .nav_link ul li a:hover {
+      color: #d46a84;
+      background-color: rgba(212, 106, 132, 0.1);
+    }
+
+    .profile-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #d46a84;
+    }
+
+    .header {
+      text-align: center;
+      margin: 120px 0 40px 0;
+      padding: 20px;
+    }
+
+    .header b {
+      font-size: 3rem;
+      color: #d46a84;
+      font-family: "Dancing Script", cursive;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .header .tagline {
+      font-size: 1.2rem;
+      color: #684c59;
+      font-style: italic;
+      font-family: "Cormorant Garamond", serif;
+    }
+
+    .border {
+      flex: 1;
+      width: 95%;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      overflow-y: auto;
+    }
+
+    #grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      width: 100%;
+      padding: 20px;
+    }
+
+    .gridimg {
+      background-color: white;
+      border: 1px solid #d46a84;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      border-radius: 15px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .gridimg:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(212, 106, 132, 0.3);
+    }
+
+    .imgcontainer {
+      width: 100%;
+      height: 400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid #d46a84;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .imgcontainer img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .caption {
+      font-family: "Poppins", sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #684c59;
+      text-align: center;
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+    }
+
+    .modal-content {
+      position: relative;
+      margin: 5% auto;
+      display: block;
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+      
+    }
+
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 25px;
+      color: #fff;
+      font-size: 35px;
+      cursor: pointer;
+      z-index: 2001;
+    }
+
+    .close:hover {
+      color: #d46a84;
+    }
+
+    .prev, .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      width: auto;
+      padding: 16px;
+      margin-top: -22px;
+      color: white;
+      font-weight: bold;
+      font-size: 30px;
+      transition: 0.3s;
+      user-select: none;
+      z-index: 2001;
+    }
+
+    .prev { left: 20px; }
+    .next { right: 20px; }
+    .prev:hover, .next:hover { color: #d46a84; }
+
+    .footer {
+      position: fixed;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 55px;
+      width: 100%;
+      background: #ffeef2;
+      border-top: 1px solid #d46a84;
+      z-index: 1000;
+    }
+
+    .footer p {
+      font-size: 0.9rem;
+      color: #684c59;
+      font-family: "Poppins", sans-serif;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 0 20px;
+      }
+
+      .nav_content {
+        gap: 20px;
+      }
+
+      .nav_text {
+        font-size: 1.2rem;
+      }
+
+      .nav_link ul {
+        gap: 15px;
+      }
+
+      .nav_link ul li a {
+        font-size: 0.75rem;
+        padding: 6px 12px;
+      }
+
+      .header b {
+        font-size: 3rem;
+      }
+      
+      #grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      
+      .imgcontainer {
+        height: 500px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav_link ul {
+        flex-direction: row;
+        gap: 4px;
+      }
+
+      .navbar {
+        height: auto;
+        padding: 15px 20px;
+      }
+
+      .header {
+        margin-top: 140px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav_content">
+      <div class="nav_text">
+        <span>For my Love &#x2764;</span>
+      </div>
+      <div class="nav_link">
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../MusicAlbum/ma.html">Music</a></li>
+          <li><a href="../AboutYou/about.html">About you</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <div class="header">
+    <b>For my cutieee</b>
+    <p class="tagline">A little gallery : Because you are my favourite view</p>
+  </div>
+  
+  <div class="border">
+    <section id="grid">
+      <!-- Updated with working placeholder images -->
+      <div class="gridimg" onclick="openModal('dress1')">
+        <div class="imgcontainer">
+          <img src="../../Images/Gallery/image1/image1_1.jpg" alt="Traditional Dress">
+        </div>
+        <div class="caption">Traditionals never looked this good</div>
+      </div>
+
+      <div class="gridimg" onclick="openModal('dress2')">
+        <div class="imgcontainer">
+          <img src="../../Images/Gallery/image2/image2_1.jpg" alt="Cute Portrait">
+        </div>
+        <div class="caption">"Spicy, cute & all mine!"</div>
+      </div>
+
+      <div class="gridimg" onclick="openModal('dress3')">
+        <div class="imgcontainer">
+          <img src="../../Images/Gallery/image3/image3_1.jpg" alt="With Pet">
+        </div>
+        <div class="caption">"Two cuties, one heart"</div>
+      </div>
+
+      <div class="gridimg" onclick="openModal('dress4')">
+        <div class="imgcontainer">
+          <img src="../../Images/Gallery/image4/image4_1.jpg" alt="Stylish Look">
+        </div>
+        <div class="caption">"Her sass, my weakness"</div>
+      </div>
+
+      <div class="gridimg" onclick="openModal('dress5')">
+        <div class="imgcontainer">
+          <img src="../../Images/Gallery/image5/image5_1.jpg" alt="Casual Hoodie">
+        </div>
+        <div class="caption">"Hoodie + her = perfection"</div>
+      </div>
+
+      <div class="gridimg" onclick="openModal('dress6')">
+        <div class="imgcontainer">
+          <img src="../../Images/Gallery/image6/image6_1.jpg" alt="Candid Shot">
+        </div>
+        <div class="caption">Randomly clicked</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="footer">
+    <p>Made with love just for you</p>
+  </div>
+
+  <!-- Slideshow Modal -->
+  <div id="myModal" class="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="modalImg">
+    <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+    <a class="next" onclick="changeSlide(1)">&#10095;</a>
+  </div>
+
+  <script>
+    const wardrobes = {
+      dress1: [
+        "../../Images/Gallery/image1/image1_1.jpg",
+       "../../Images/Gallery/image1/image1_2.jpg",
+       "../../Images/Gallery/image1/image1_3.jpg",
+       "../../Images/Gallery/image1/image1_4.jpg",
+       "../../Images/Gallery/image1/image1_5.jpg",
+       "../../Images/Gallery/image1/image1_6.jpg",
+       "../../Images/Gallery/image1/image1_7.jpg",
+       "../../Images/Gallery/image1/image1_8.jpg",
+       "../../Images/Gallery/image1/image1_9.jpg",
+       "../../Images/Gallery/image1/image1_10.jpg",
+       "../../Images/Gallery/image1/image1_11.jpg",
+       "../../Images/Gallery/image1/image1_12.jpg",
+       "../../Images/Gallery/image1/image1_13.jpg",
+       "../../Images/Gallery/image1/image1_14.jpg",
+       "../../Images/Gallery/image1/image1_15.jpg",
+       "../../Images/Gallery/image1/image1_16.jpg",
+       "../../Images/Gallery/image1/image1_17.jpg",
+       "../../Images/Gallery/image1/image1_18.jpg",
+       "../../Images/Gallery/image1/image1_19.jpg",
+       "../../Images/Gallery/image1/image1_20.jpg",
+       "../../Images/Gallery/image1/image1_21.jpg",
+       "../../Images/Gallery/image1/image1_22.jpg",
+       "../../Images/Gallery/image1/image1_23.jpg",
+       "../../Images/Gallery/image1/image1_24.jpg",
+       "../../Images/Gallery/image1/image1_25.jpg",
+       "../../Images/Gallery/image1/image1_26.jpg",
+       "../../Images/Gallery/image1/image1_27.jpg",
+       "../../Images/Gallery/image1/image1_28.jpg",
+       "../../Images/Gallery/image1/image1_29.jpg",
+       "../../Images/Gallery/image1/image1_30.jpg",
+       "../../Images/Gallery/image1/image1_31.jpg",
+       "../../Images/Gallery/image1/image1_32.jpg",
+       "../../Images/Gallery/image1/image1_33.jpg",
+       "../../Images/Gallery/image1/image1_34.jpg",
+       "../../Images/Gallery/image1/image1_35.jpg",
+       "../../Images/Gallery/image1/image1_36.jpg",
+       "../../Images/Gallery/image1/image1_37.jpg",
+       "../../Images/Gallery/image1/image1_38.jpg",
+       "../../Images/Gallery/image1/image1_39.jpg",
+       "../../Images/Gallery/image1/image1_40.jpg",
+       "../../Images/Gallery/image1/image1_41.jpg",
+       "../../Images/Gallery/image1/image1_42.jpg"
+       
+      ],
+      dress2: [
+"../../Images/Gallery/image2/image2_1.jpg",
+"../../Images/Gallery/image2/image2_2.jpg",
+"../../Images/Gallery/image2/image2_3.jpg",
+"../../Images/Gallery/image2/image2_4.jpg",
+"../../Images/Gallery/image2/image2_5.jpg",
+"../../Images/Gallery/image2/image2_6.jpg",
+"../../Images/Gallery/image2/image2_7.jpg",
+"../../Images/Gallery/image2/image2_8.jpg",
+"../../Images/Gallery/image2/image2_9.jpg",
+"../../Images/Gallery/image2/image2_10.jpg",
+"../../Images/Gallery/image2/image2_11.jpg",
+"../../Images/Gallery/image2/image2_12.jpg",
+"../../Images/Gallery/image2/image2_13.jpg",
+"../../Images/Gallery/image2/image2_14.jpg",
+"../../Images/Gallery/image2/image2_15.jpg",
+"../../Images/Gallery/image2/image2_16.jpg",
+"../../Images/Gallery/image2/image2_17.jpg",
+"../../Images/Gallery/image2/image2_18.jpg",
+"../../Images/Gallery/image2/image2_19.jpg",
+"../../Images/Gallery/image2/image2_20.jpg",
+"../../Images/Gallery/image2/image2_21.jpg",
+"../../Images/Gallery/image2/image2_22.jpg",
+"../../Images/Gallery/image2/image2_23.jpg",
+"../../Images/Gallery/image2/image2_24.jpg",
+"../../Images/Gallery/image2/image2_25.jpg",
+"../../Images/Gallery/image2/image2_26.jpg",
+"../../Images/Gallery/image2/image2_27.jpg",
+"../../Images/Gallery/image2/image2_28.jpg",
+"../../Images/Gallery/image2/image2_29.jpg",
+"../../Images/Gallery/image2/image2_30.jpg",
+"../../Images/Gallery/image2/image2_31.jpg",
+"../../Images/Gallery/image2/image2_32.jpg",
+"../../Images/Gallery/image2/image2_33.jpg",
+"../../Images/Gallery/image2/image2_34.jpg",
+"../../Images/Gallery/image2/image2_35.jpg"
+  ],
+      dress3: [
+      "../../Images/Gallery/image3/image3_1.jpg",
+"../../Images/Gallery/image3/image3_2.jpg",
+"../../Images/Gallery/image3/image3_3.jpg",
+"../../Images/Gallery/image3/image3_4.jpg",
+"../../Images/Gallery/image3/image3_5.jpg",
+"../../Images/Gallery/image3/image3_6.jpg",
+"../../Images/Gallery/image3/image3_7.jpg",
+"../../Images/Gallery/image3/image3_8.jpg",
+"../../Images/Gallery/image3/image3_9.jpg",
+"../../Images/Gallery/image3/image3_10.jpg",
+"../../Images/Gallery/image3/image3_11.jpg",
+"../../Images/Gallery/image3/image3_12.jpg",
+"../../Images/Gallery/image3/image3_13.jpg",
+"../../Images/Gallery/image3/image3_14.jpg",
+"../../Images/Gallery/image3/image3_15.jpg",
+"../../Images/Gallery/image3/image3_16.jpg",
+"../../Images/Gallery/image3/image3_17.jpg",
+"../../Images/Gallery/image3/image3_18.jpg",
+"../../Images/Gallery/image3/image3_19.jpg",
+"../../Images/Gallery/image3/image3_20.jpg",
+"../../Images/Gallery/image3/image3_21.jpg",
+"../../Images/Gallery/image3/image3_22.jpg",
+"../../Images/Gallery/image3/image3_23.jpg",
+"../../Images/Gallery/image3/image3_24.jpg",
+"../../Images/Gallery/image3/image3_25.jpg",
+"../../Images/Gallery/image3/image3_26.jpg",
+"../../Images/Gallery/image3/image3_27.jpg",
+"../../Images/Gallery/image3/image3_28.jpg",
+"../../Images/Gallery/image3/image3_29.jpg",
+"../../Images/Gallery/image3/image3_30.jpg",
+"../../Images/Gallery/image3/image3_31.jpg",
+"../../Images/Gallery/image3/image3_32.jpg",
+"../../Images/Gallery/image3/image3_33.jpg",
+"../../Images/Gallery/image3/image3_34.jpg",
+"../../Images/Gallery/image3/image3_35.jpg",
+"../../Images/Gallery/image3/image3_36.jpg",
+"../../Images/Gallery/image3/image3_37.jpg",
+"../../Images/Gallery/image3/image3_38.jpg",
+"../../Images/Gallery/image3/image3_39.jpg",
+"../../Images/Gallery/image3/image3_40.jpg",
+"../../Images/Gallery/image3/image3_41.jpg",
+"../../Images/Gallery/image3/image3_42.jpg",
+"../../Images/Gallery/image3/image3_43.jpg",
+"../../Images/Gallery/image3/image3_44.jpg"
+
+
+        
+      ],
+      dress4: [
+       "../../Images/Gallery/image4/image4_1.jpg",
+"../../Images/Gallery/image4/image4_2.jpg",
+"../../Images/Gallery/image4/image4_3.jpg",
+"../../Images/Gallery/image4/image4_4.jpg",
+"../../Images/Gallery/image4/image4_5.jpg",
+"../../Images/Gallery/image4/image4_6.jpg",
+"../../Images/Gallery/image4/image4_7.jpg",
+"../../Images/Gallery/image4/image4_8.jpg",
+"../../Images/Gallery/image4/image4_9.jpg",
+"../../Images/Gallery/image4/image4_10.jpg",
+"../../Images/Gallery/image4/image4_11.jpg",
+"../../Images/Gallery/image4/image4_12.jpg",
+"../../Images/Gallery/image4/image4_13.jpg",
+"../../Images/Gallery/image4/image4_14.jpg",
+"../../Images/Gallery/image4/image4_15.jpg"
+
+
+      ],
+      dress5: [
+        "../../Images/Gallery/image5/image5_1.jpg",
+"../../Images/Gallery/image5/image5_2.jpg",
+"../../Images/Gallery/image5/image5_3.jpg",
+"../../Images/Gallery/image5/image5_4.jpg",
+"../../Images/Gallery/image5/image5_5.jpg",
+"../../Images/Gallery/image5/image5_6.jpg",
+"../../Images/Gallery/image5/image5_7.jpg",
+"../../Images/Gallery/image5/image5_8.jpg",
+"../../Images/Gallery/image5/image5_9.jpg",
+"../../Images/Gallery/image5/image5_10.jpg",
+"../../Images/Gallery/image5/image5_11.jpg",
+"../../Images/Gallery/image5/image5_12.jpg",
+"../../Images/Gallery/image5/image5_13.jpg",
+"../../Images/Gallery/image5/image5_14.jpg",
+"../../Images/Gallery/image5/image5_15.jpg",
+"../../Images/Gallery/image5/image5_16.jpg",
+"../../Images/Gallery/image5/image5_17.jpg",
+"../../Images/Gallery/image5/image5_18.jpg",
+"../../Images/Gallery/image5/image5_19.jpg",
+"../../Images/Gallery/image5/image5_20.jpg",
+"../../Images/Gallery/image5/image5_21.jpg",
+"../../Images/Gallery/image5/image5_22.jpg",
+"../../Images/Gallery/image5/image5_23.jpg",
+"../../Images/Gallery/image5/image5_24.jpg",
+"../../Images/Gallery/image5/image5_25.jpg",
+"../../Images/Gallery/image5/image5_26.jpg",
+"../../Images/Gallery/image5/image5_27.jpg",
+"../../Images/Gallery/image5/image5_28.jpg",
+"../../Images/Gallery/image5/image5_29.jpg"
+
+
+      ],
+      dress6: [
+       "../../Images/Gallery/image6/image6_1.jpg",
+"../../Images/Gallery/image6/image6_2.jpg",
+"../../Images/Gallery/image6/image6_3.jpg",
+"../../Images/Gallery/image6/image6_4.jpg",
+"../../Images/Gallery/image6/image6_5.jpg",
+"../../Images/Gallery/image6/image6_6.jpg",
+"../../Images/Gallery/image6/image6_7.jpg",
+"../../Images/Gallery/image6/image6_8.jpg",
+"../../Images/Gallery/image6/image6_9.jpg",
+"../../Images/Gallery/image6/image6_10.jpg",
+"../../Images/Gallery/image6/image6_11.jpg",
+"../../Images/Gallery/image6/image6_12.jpg",
+"../../Images/Gallery/image6/image6_13.jpg",
+"../../Images/Gallery/image6/image6_14.jpg",
+"../../Images/Gallery/image6/image6_15.jpg",
+"../../Images/Gallery/image6/image6_16.jpg",
+"../../Images/Gallery/image6/image6_17.jpg"
+
+
+      ]
+    };
+
+    let currentSet = [];
+    let index = 0;
+    let slideInterval;
+
+    function openModal(setName) {
+      currentSet = wardrobes[setName];
+      index = 0;
+      document.getElementById("myModal").style.display = "block";
+      document.getElementById("modalImg").src = currentSet[index];
+
+      slideInterval = setInterval(() => {
+        changeSlide(1);
+      }, 3000);
+    }
+
+    function closeModal() {
+      document.getElementById("myModal").style.display = "none";
+      clearInterval(slideInterval);
+    }
+
+    function changeSlide(n) {
+      if (currentSet.length === 0) return;
+      index = (index + n + currentSet.length) % currentSet.length;
+      document.getElementById("modalImg").src = currentSet[index];
+    }
+
+    // Close modal when clicking outside the image
+    window.onclick = function(event) {
+      const modal = document.getElementById("myModal");
+      if (event.target == modal) {
+        closeModal();
+      }
+    }
+
+    // Simple page transition
+    document.addEventListener('DOMContentLoaded', function() {
+      document.body.style.opacity = '0';
+      document.body.style.transition = 'opacity 0.3s ease-in-out';
+      
+      setTimeout(function() {
+        document.body.style.opacity = '1';
+      }, 100);
+    });
+  </script>
+</body>
+</html>
