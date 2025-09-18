@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <title>About You - My Love</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #fff0f5;
+      font-family: "Poppins", sans-serif;
+      padding-bottom: 100px;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+      width: 100%;
+      background: #ffeef2;
+      padding: 0 40px;
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav_content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 50px;
+    }
+
+    .nav_text {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #d46a84;
+      font-family: "Dancing Script", cursive;
+    }
+
+    .nav_link ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav_link ul li a {
+      text-decoration: none;
+      color: #333;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      padding: 8px 16px;
+      border-radius: 20px;
+    }
+
+    .nav_link ul li a:hover {
+      color: #d46a84;
+      background-color: rgba(212, 106, 132, 0.1);
+    }
+
+    .profile-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #d46a84;
+    }
+
+    .about-container {
+      max-width: 900px;
+      margin: 120px auto 0 auto;
+      padding: 20px;
+    }
+
+    .about-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .about-header h1 {
+      font-family: "Dancing Script", cursive;
+      font-size: 3rem;
+      color: #d46a84;
+      margin-bottom: 10px;
+    }
+
+    .about-header .subtitle {
+      font-size: 1.2rem;
+      color: #684c59;
+      font-style: italic;
+      font-family: "Cormorant Garamond", serif;
+    }
+
+    .about-content {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .about-section {
+      background: rgba(255, 238, 242, 0.5);
+      padding: 30px;
+      border-radius: 20px;
+      border: 1px solid rgba(212, 106, 132, 0.3);
+      box-shadow: 0 4px 15px rgba(212, 106, 132, 0.1);
+    }
+
+    .about-section h2 {
+      font-family: "Dancing Script", cursive;
+      font-size: 2rem;
+      color: #e28f9a;
+      margin-bottom: 15px;
+    }
+
+    .about-section p {
+      font-size: 1.1rem;
+      color: #684c59;
+      font-family: "Cormorant Garamond", serif;
+      line-height: 1.7;
+      font-weight: 500;
+    }
+
+    .love-notes {
+      background: rgba(255, 238, 242, 0.7);
+      padding: 30px;
+      border-radius: 20px;
+      border: 1px solid rgba(212, 106, 132, 0.3);
+      box-shadow: 0 4px 15px rgba(212, 106, 132, 0.1);
+    }
+
+    .love-notes h2 {
+      font-family: "Dancing Script", cursive;
+      font-size: 2rem;
+      color: #e28f9a;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
+
+    .note {
+      background: white;
+      padding: 15px;
+      border-radius: 15px;
+      border: 1px solid #d46a84;
+      text-align: center;
+      font-size: 1rem;
+      color: #684c59;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .note:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(212, 106, 132, 0.3);
+      background: rgba(255, 238, 242, 0.8);
+    }
+
+    .social_links {
+      position: fixed;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 80px;
+      width: 100%;
+      background: #ffeef2;
+      border-top: 1px solid #d46a84;
+      z-index: 1000;
+    }
+
+    .social_links .icon {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 8px;
+    }
+
+    .social_links .icon a {
+      color: #d46a84;
+      font-size: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .social_links .icon a:hover {
+      color: #e28f9a;
+      transform: scale(1.2);
+    }
+
+    .social_links p {
+      font-size: 0.9rem;
+      color: #684c59;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 0 20px;
+      }
+
+      .nav_content {
+        gap: 20px;
+      }
+
+      .nav_text {
+        font-size: 1.2rem;
+      }
+
+      .nav_link ul {
+        gap: 15px;
+      }
+
+      .nav_link ul li a {
+        font-size: 0.787rem;
+        padding: 6px 12px;
+      }
+
+      .about-header h1 {
+        font-size: 2.5rem;
+      }
+
+      .about-container {
+        padding: 20px;
+      }
+
+      .about-section {
+        padding: 20px;
+      }
+
+      .about-section h2 {
+        font-size: 1.8rem;
+      }
+
+      .about-section p {
+        font-size: 1rem;
+      }
+
+      .notes-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav_link ul {
+        flex-direction: row;
+        gap: 8px;
+      }
+
+      .navbar {
+        height: auto;
+        padding: 15px 20px;
+      }
+
+      .about-container {
+        margin-top: 140px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav_content">
+      <div class="nav_text">
+        <span>For my Love &#x2764;</span>
+      </div>
+      <div class="nav_link">
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../Gallery/index.html">Gallery</a></li>
+          <li><a href="../MusicAlbum/ma.html">Music</a></li>
+          
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <div class="about-container">
+    <div class="about-header">
+      <h1>About My Beautiful You</h1>
+      <p class="subtitle">Everything I love about you</p>
+    </div>
+
+    <div class="about-content">
+      <div class="about-section">
+        <h2>Your Beautiful Soul</h2>
+        <p>You have the most beautiful soul I've ever encountered. Your kindness radiates from within, touching everyone around you. The way you care for others, especially me, shows the depth of your heart. You're not just beautiful on the outside, but your inner beauty is what truly captivates me.</p>
+      </div>
+
+      <div class="about-section">
+        <h2>Your Protective Nature</h2>
+        <p>You are my guardian angel in human form. From reminding me to take my medicine to making sure I eat properly, you take care of me in ways I never knew I needed. You pick out my clothes, listen to my endless stories, and always have my back. Your protection isn't just physical—you protect my heart, my dreams, and my peace.</p>
+      </div>
+
+      <div class="about-section">
+        <h2>Your Adorable Chaos</h2>
+        <p>I love how wonderfully complicated you are. Our silly fights that always end in laughter, your random mood swings that keep life interesting, and the way you can be stubborn about the smallest things—it's all part of what makes you uniquely you. You're my beautiful chaos, and I wouldn't change a single thing.</p>
+      </div>
+
+      <div class="about-section">
+        <h2>Your Love Language</h2>
+        <p>The way you love is unlike anything I've experienced. You don't just say you love me—you show it in a thousand little ways. In the way you bless me before important moments, in how you remember the smallest details about my day, in the warmth of your hugs when I need them most. You are love personified.</p>
+      </div>
+
+      <div class="love-notes">
+        <h2>Little Things I Adore</h2>
+        <div class="notes-grid">
+          <div class="note">Your laugh that lights up my world</div>
+          <div class="note">The way you scrunch your nose when you're thinking</div>
+          <div class="note">Your sleepy voice in the morning</div>
+          <div class="note">How you dance when you think no one's watching</div>
+          <div class="note">Your terrible jokes that somehow make me smile</div>
+          <div class="note">The way you hold my hand</div>
+          <div class="note">Your random 3 AM thoughts</div>
+          <div class="note">How you steal my hoodies</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Simple page transition
+    document.addEventListener('DOMContentLoaded', function() {
+      document.body.style.opacity = '0';
+      document.body.style.transition = 'opacity 0.3s ease-in-out';
+      
+      setTimeout(function() {
+        document.body.style.opacity = '1';
+      }, 100);
+
+      // Add hover effects to notes
+      const notes = document.querySelectorAll('.note');
+      notes.forEach(note => {
+        note.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-3px) scale(1.02)';
+        });
+        note.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0) scale(1)';
+        });
+      });
+    });
+  </script>
+
+  <footer class="social_links">
+    <div class="icon">
+      <a href="https://www.instagram.com/sanjeev__singh_._?igsh=MTZiY3gyd3FscW83aw==" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+      <a href="https://wa.me/7545091005" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    </div>
+    <p>Made with love, for my love &copy; 2025</p>
+  </footer>
+</body>
+</html>
